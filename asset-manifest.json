@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/doorways/static/css/main.5c8f5f1b.css",
-    "main.js": "/doorways/static/js/main.6659b648.js",
-    "static/media/housephone.m4a": "/doorways/static/media/housephone.172278673f8f2fb73661.m4a",
+    "main.css": "/doorways/static/css/main.3b815605.css",
+    "main.js": "/doorways/static/js/main.86fbb75f.js",
+    "static/media/song.wav": "/doorways/static/media/song.9cb55d8d5a5eb67d4cef.wav",
     "static/media/religious.jpg": "/doorways/static/media/religious.5ed131f363f2106cc806.jpg",
     "index.html": "/doorways/index.html",
-    "main.5c8f5f1b.css.map": "/doorways/static/css/main.5c8f5f1b.css.map",
-    "main.6659b648.js.map": "/doorways/static/js/main.6659b648.js.map"
+    "main.3b815605.css.map": "/doorways/static/css/main.3b815605.css.map",
+    "main.86fbb75f.js.map": "/doorways/static/js/main.86fbb75f.js.map"
   },
   "entrypoints": [
-    "static/css/main.5c8f5f1b.css",
-    "static/js/main.6659b648.js"
+    "static/css/main.3b815605.css",
+    "static/js/main.86fbb75f.js"
   ]
 }

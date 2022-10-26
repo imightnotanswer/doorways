@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/doorways/static/css/main.3b815605.css",
-    "main.js": "/doorways/static/js/main.86fbb75f.js",
-    "static/media/song.wav": "/doorways/static/media/song.9cb55d8d5a5eb67d4cef.wav",
+    "main.js": "/doorways/static/js/main.4df08ff8.js",
+    "static/media/song.wav": "/doorways/static/media/song.a2549f09344ea2e3142b.wav",
     "static/media/religious.jpg": "/doorways/static/media/religious.5ed131f363f2106cc806.jpg",
     "index.html": "/doorways/index.html",
     "main.3b815605.css.map": "/doorways/static/css/main.3b815605.css.map",
-    "main.86fbb75f.js.map": "/doorways/static/js/main.86fbb75f.js.map"
+    "main.4df08ff8.js.map": "/doorways/static/js/main.4df08ff8.js.map"
   },
   "entrypoints": [
     "static/css/main.3b815605.css",
-    "static/js/main.86fbb75f.js"
+    "static/js/main.4df08ff8.js"
   ]
 }

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://doorways.github.io",
+  "homepage": "https://imightnotanswer.github.io/doorways",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

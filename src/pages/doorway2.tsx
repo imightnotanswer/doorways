@@ -11,41 +11,43 @@ const Container = styled.div`
   color: white;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SwordContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 500vh;
+  min-height: 200vh; /* Initial height to allow scrolling */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10vh;
+  padding-top: 55vh;
 `;
 
 const SwordSection = styled.div<{ index: number }>`
-  position: sticky;
-  top: ${props => 40 + (props.index * -15)}vh;
+  position: relative;
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: ${props => 4 - props.index};
-  transform: translateY(${props => props.index * 5}vh);
+  padding: 0;
+  overflow: visible;
 `;
 
 const SwordImage = styled.img`
-  max-height: 95vh;
+  height: 200vh;
   width: auto;
   object-fit: contain;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.05));
-
-  &.visible {
-    opacity: 1;
-  }
+  opacity: 1;
+  filter: drop-shadow(0 0 70px rgba(255, 0, 0, 0.5)) brightness(1.4);
+  transform: scale(8);
+  transform-origin: top center;
+  margin-top: -40vh;
 `;
 
 const HypnoticReturn = styled(Link)`
@@ -112,8 +114,13 @@ function Doorway2() {
   const location = useLocation();
   const fromLanding = location.state?.fromLanding;
   const containerRef = useRef<HTMLDivElement>(null);
-  const [visibleSections, setVisibleSections] = useState<boolean[]>([false, false, false, false]);
   const lastScrollY = useRef(0);
+  const containerHeightRef = useRef(2000); // Initial height in pixels
+
+  // Simple array to track sword images
+  const swordImages = [
+    'longsword.png'
+  ];
 
   useEffect(() => {
     if (fromLanding) {
@@ -126,54 +133,54 @@ function Doorway2() {
     }
   }, [fromLanding]);
 
+  // Update container height based on scroll to allow seeing the full sword
   useEffect(() => {
     const handleScroll = () => {
-      const sections = document.querySelectorAll('.sword-section');
-      const newVisibleSections = [...visibleSections];
       const currentScrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
 
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-        newVisibleSections[index] = isVisible;
+      // If user is nearing the bottom of the currently visible area
+      if (currentScrollY > (documentHeight - viewportHeight * 1.5)) {
+        // Increase the container height to ensure full scroll capability
+        containerHeightRef.current += viewportHeight * 3;
 
-        // Enhanced reverse scroll effect
-        if (isVisible && index > 0) {
-          const scrollDelta = currentScrollY - lastScrollY.current;
-          if (scrollDelta > 0) { // Only on downward scroll
-            const scrollAmount = Math.min(scrollDelta * 0.15, 30);
-            window.scrollBy(0, -scrollAmount);
-          }
+        if (containerRef.current) {
+          containerRef.current.style.minHeight = `${containerHeightRef.current}px`;
         }
-      });
+      }
 
       lastScrollY.current = currentScrollY;
-      setVisibleSections(newVisibleSections);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [visibleSections]);
+  }, []);
 
   if (fromLanding && isLoading) {
     return <Preloader isLoading={true} />;
   }
 
   return (
-    <Container ref={containerRef}>
-      <AnimatedTitle text="LONG SWORD" />
+    <Container>
+      {/* Medieval background elements - these need to be first */}
+      <div className="medieval-background"></div>
+      <div className="torch-overlay"></div>
+      <div className="texture-overlay"></div>
+
+      <AnimatedTitle text="LONG SWORD" color="#ff0000" />
       <HypnoticReturn to="/" title="Return to landing page">
         <svg viewBox="0 0 100 100">
           <path d="M 50 50 m 0 -35 a 35 35 0 0 1 0 70 a 28 28 0 0 1 0 -56 a 21 21 0 0 1 0 42 a 14 14 0 0 1 0 -28 a 7 7 0 0 1 0 14" />
         </svg>
       </HypnoticReturn>
-      <SwordContainer>
-        {['/longsword.png', '/longsword1.png', '/longsword2.png', '/longsword3.png'].map((src, index) => (
+
+      <SwordContainer ref={containerRef}>
+        {swordImages.map((src, index) => (
           <SwordSection key={index} index={index} className="sword-section">
             <SwordImage
               src={src}
               alt={`Longsword section ${index + 1}`}
-              className={visibleSections[index] ? 'visible' : ''}
             />
           </SwordSection>
         ))}

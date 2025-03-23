@@ -86,17 +86,14 @@ const MainTitle = styled.h1`
 const DoorwayGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 800px;
+  column-gap: 0rem;
+  row-gap: 1rem;
+  justify-content: center;
+  max-width: 650px;
   margin: 0 auto;
   width: 100%;
   padding: 2rem;
   margin-top: 2rem;
-
-  @media (max-width: 768px) {
-    gap: 1rem;
-    padding: 1rem;
-  }
 `;
 
 const DoorwayLink = styled(Link)`
@@ -104,11 +101,15 @@ const DoorwayLink = styled(Link)`
   aspect-ratio: 1;
   display: block;
   transition: transform 0.3s ease;
-  max-width: 190px;
-  margin: 0 auto;
-
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto 2rem auto;
+  margin-left: -10px;
+  margin-right: -10px;
+  
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
+    z-index: 2;
   }
 `;
 
@@ -117,6 +118,7 @@ const DoorwayImage = styled.img`
   height: 100%;
   object-fit: contain;
   display: block;
+  padding: 0 5px;
 `;
 
 const doorways = [

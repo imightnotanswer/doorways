@@ -15,8 +15,8 @@ const TitleContainer = styled(motion.div)`
   z-index: 100;
 `;
 
-const Title = styled(motion.h1)`
-  color: #ffdd00;
+const Title = styled(motion.h1) <{ color?: string }>`
+  color: ${props => props.color || '#ffdd00'};
   text-transform: uppercase;
   font-family: 'VT323', monospace;
   font-size: 12vw;
@@ -29,9 +29,10 @@ const Title = styled(motion.h1)`
 
 interface AnimatedTitleProps {
     text: string;
+    color?: string;
 }
 
-const AnimatedTitle = ({ text }: AnimatedTitleProps) => {
+const AnimatedTitle = ({ text, color }: AnimatedTitleProps) => {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -51,6 +52,7 @@ const AnimatedTitle = ({ text }: AnimatedTitleProps) => {
                     transition={{ duration: 0.5 }}
                 >
                     <Title
+                        color={color}
                         initial={{ scale: 1.2, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}

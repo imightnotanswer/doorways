@@ -448,6 +448,9 @@ function Doorway1() {
   const location = useLocation();
   const fromLanding = location.state?.fromLanding;
 
+  // Add this - create audio object for click sound
+  const clickSound = new Audio('/click-button-131479.mp3');
+
   useEffect(() => {
     if (fromLanding) {
       const timer = setTimeout(() => {
@@ -460,6 +463,11 @@ function Doorway1() {
   }, [fromLanding]);
 
   const handleChannelChange = (direction: 'left' | 'right') => {
+    // Play click sound
+    clickSound.currentTime = 0; // Reset sound to beginning
+    clickSound.play().catch(err => console.error("Audio play failed:", err));
+
+    // Existing channel change logic
     if (direction === 'right' && currentChannel === 'static') {
       setCurrentChannel('colorbars');
     } else if (direction === 'left' && currentChannel === 'colorbars') {

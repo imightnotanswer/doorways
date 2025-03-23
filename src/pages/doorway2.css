@@ -1,9 +1,13 @@
 html {
     scroll-behavior: smooth;
+    overflow: visible !important;
+    height: auto !important;
 }
 
 body {
-    overscroll-behavior: none;
+    overscroll-behavior: auto !important;
+    overflow-y: visible !important;
+    height: auto !important;
     background: #000;
 }
 
@@ -43,7 +47,8 @@ body {
 
 /* Custom scrollbar for the sword effect */
 ::-webkit-scrollbar {
-    width: 8px;
+    display: block !important;
+    width: 8px !important;
 }
 
 ::-webkit-scrollbar-track {
@@ -57,4 +62,218 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #444;
+}
+
+/* Add these styles to doorway2.css */
+.depth-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to bottom,
+            #000000 0%,
+            #1a0000 25%,
+            #2a0000 50%,
+            #3a0000 75%,
+            #4a0000 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.depth-markers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.depth-marker {
+    position: absolute;
+    font-family: monospace;
+    font-size: 12px;
+    color: #ff3333;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.depth-vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+            transparent 40%,
+            rgba(0, 0, 0, 0) 60%,
+            rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.5s ease, background 0.5s ease;
+}
+
+/* Add this to your doorway2.css file */
+@keyframes medievalAmbience {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes torchFlicker {
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    25% {
+        opacity: 0.95;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    75% {
+        opacity: 0.85;
+    }
+}
+
+.medieval-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            #231212 0%,
+            #3c1c1c 25%,
+            #2a1520 50%,
+            #1a0e1e 75%,
+            #0e0808 100%);
+    background-size: 400% 400%;
+    animation: medievalAmbience 20s ease infinite;
+    z-index: -2;
+    height: 100%;
+}
+
+.torch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+            rgba(255, 200, 100, 0.1) 0%,
+            rgba(255, 150, 50, 0.05) 40%,
+            rgba(100, 20, 20, 0.05) 60%,
+            rgba(20, 10, 10, 0.1) 100%);
+    animation: torchFlicker 4s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+    height: 100%;
+}
+
+.texture-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.2;
+    z-index: -1;
+    pointer-events: none;
+    height: 100%;
+}
+
+/* Add this to doorway2.css */
+@keyframes scrollArrow {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(-50%);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateY(10px) translateX(-50%);
+        opacity: 1;
+    }
+}
+
+/* Ensure the container that holds the sword can expand properly */
+#root {
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Dynamic depth background styles */
+.depth-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom,
+            #1a1a1a 0%,
+            #1a1212 20%,
+            #221010 40%,
+            #2a0e0e 60%,
+            #330c0c 80%,
+            #3b0a0a 100%);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -3;
+}
+
+/* Add this for the fire-like effect at the bottom */
+.fire-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50vh;
+    background: linear-gradient(to top,
+            rgba(255, 30, 0, 0.2) 0%,
+            rgba(200, 20, 0, 0.1) 40%,
+            rgba(150, 10, 0, 0.05) 70%,
+            rgba(100, 0, 0, 0) 100%);
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Glow effect that intensifies as you scroll */
+.depth-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center bottom,
+            rgba(255, 50, 0, 0) 0%,
+            rgba(200, 0, 0, 0) 50%,
+            rgba(100, 0, 0, 0.1) 90%,
+            rgba(50, 0, 0, 0.2) 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }

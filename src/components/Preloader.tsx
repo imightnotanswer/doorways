@@ -1,7 +1,5 @@
-import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
 
 const PreloaderContainer = styled(motion.div)`
   position: fixed;
@@ -95,42 +93,42 @@ const LoadingText = styled.div`
 `;
 
 interface PreloaderProps {
-    isLoading: boolean;
+  isLoading: boolean;
 }
 
 const Preloader = ({ isLoading }: PreloaderProps) => {
-    const baseText = "IMIGHTNOTANSWER DOORWAYS ";
-    const repeatedText = baseText.repeat(10);
-    const doubleText = repeatedText + repeatedText;
+  const baseText = "IMIGHTNOTANSWER DOORWAYS ";
+  const repeatedText = baseText.repeat(10);
+  const doubleText = repeatedText + repeatedText;
 
-    return (
-        <AnimatePresence>
-            {isLoading && (
-                <PreloaderContainer
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <ScrollingTextContainer className="top">
-                        <ScrollingText>{doubleText}</ScrollingText>
-                    </ScrollingTextContainer>
+  return (
+    <AnimatePresence>
+      {isLoading && (
+        <PreloaderContainer
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ScrollingTextContainer className="top">
+            <ScrollingText>{doubleText}</ScrollingText>
+          </ScrollingTextContainer>
 
-                    <CloudContainer>
-                        <Cloud />
-                        <LoadingText>
-                            <span>imightnotanswer</span>
-                            <span>doorways</span>
-                        </LoadingText>
-                    </CloudContainer>
+          <CloudContainer>
+            <Cloud />
+            <LoadingText>
+              <span>imightnotanswer</span>
+              <span>doorways</span>
+            </LoadingText>
+          </CloudContainer>
 
-                    <ScrollingTextContainer className="bottom">
-                        <ScrollingText>{doubleText}</ScrollingText>
-                    </ScrollingTextContainer>
-                </PreloaderContainer>
-            )}
-        </AnimatePresence>
-    );
+          <ScrollingTextContainer className="bottom">
+            <ScrollingText>{doubleText}</ScrollingText>
+          </ScrollingTextContainer>
+        </PreloaderContainer>
+      )}
+    </AnimatePresence>
+  );
 };
 
 export default Preloader; 

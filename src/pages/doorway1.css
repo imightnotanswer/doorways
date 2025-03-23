@@ -1,0 +1,92 @@
+/* Add doorway-specific styles here */
+.doorway-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@keyframes tvStatic {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+        filter: brightness(1);
+    }
+
+    10% {
+        transform: translate(-1px, 0);
+        filter: brightness(1.1);
+    }
+
+    20% {
+        transform: translate(1px, -1px);
+        filter: brightness(0.9);
+    }
+
+    30% {
+        transform: translate(0, 1px);
+        filter: brightness(1.2);
+    }
+
+    40% {
+        transform: translate(-1px, 0);
+        filter: brightness(0.9);
+    }
+
+    50% {
+        transform: translate(1px, 1px);
+        filter: brightness(1.1);
+    }
+
+    60% {
+        transform: translate(0, -1px);
+        filter: brightness(0.95);
+    }
+
+    70% {
+        transform: translate(1px, 0);
+        filter: brightness(1.05);
+    }
+
+    80% {
+        transform: translate(-1px, 1px);
+        filter: brightness(0.95);
+    }
+
+    90% {
+        transform: translate(0, -1px);
+        filter: brightness(1.1);
+    }
+}
+
+@keyframes tvNoise {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(1px, 0);
+    }
+
+    50% {
+        transform: translate(-1px, 1px);
+    }
+
+    75% {
+        transform: translate(0, -1px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes scanlines {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(4px);
+    }
+}

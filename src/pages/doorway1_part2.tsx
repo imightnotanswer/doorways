@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Preloader from '../components/Preloader';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -77,19 +79,38 @@ const Content = styled.div`
 `;
 
 function Doorway1Part2() {
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(true);
+    const fromDoorway = location.state?.fromDoorway;
+
+    useEffect(() => {
+        if (!fromDoorway) {
+            const timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        } else {
+            setIsLoading(false);
+        }
+    }, [fromDoorway]);
+
+    if (!fromDoorway && isLoading) {
+        return <Preloader isLoading={true} />;
+    }
+
     return (
         <Container>
             <HypnoticReturn to="/" title="Return to landing page">
                 <svg viewBox="0 0 100 100">
                     <path d="
-                        M 50 50
-                        m 0 -35
-                        a 35 35 0 0 1 0 70
-                        a 28 28 0 0 1 0 -56
-                        a 21 21 0 0 1 0 42
-                        a 14 14 0 0 1 0 -28
-                        a 7 7 0 0 1 0 14
-                    " />
+              M 50 50
+              m 0 -35
+              a 35 35 0 0 1 0 70
+              a 28 28 0 0 1 0 -56
+              a 21 21 0 0 1 0 42
+              a 14 14 0 0 1 0 -28
+              a 7 7 0 0 1 0 14
+            " />
                 </svg>
             </HypnoticReturn>
             <Content>

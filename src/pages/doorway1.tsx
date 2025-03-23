@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import AnimatedTitle from '../components/AnimatedTitle';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Preloader from '../components/Preloader';
 import './doorway1.css';
 
 const DoorwayContainer = styled.div`
@@ -442,7 +443,21 @@ const HypnoticReturn = styled(Link)`
 
 function Doorway1() {
   const [currentChannel, setCurrentChannel] = useState<'static' | 'colorbars'>('static');
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromLanding = location.state?.fromLanding;
+
+  useEffect(() => {
+    if (fromLanding) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoading(false);
+    }
+  }, [fromLanding]);
 
   const handleChannelChange = (direction: 'left' | 'right') => {
     if (direction === 'right' && currentChannel === 'static') {
@@ -453,8 +468,12 @@ function Doorway1() {
   };
 
   const handleDoorwayClick = () => {
-    navigate('/doorway1_part2');
+    navigate('/doorway1_part2', { state: { fromDoorway: true } });
   };
+
+  if (fromLanding && isLoading) {
+    return <Preloader isLoading={true} />;
+  }
 
   return (
     <DoorwayContainer>
@@ -489,7 +508,7 @@ function Doorway1() {
       <WallArt>
         <Painting offset="min(-0.5rem, -0.75vh)" frameColor="#a08b6c">
           <div className="canvas">
-            <img src="/orange.png" alt="Orange painting" />
+            <img src="orange.png" alt="Orange painting" />
           </div>
         </Painting>
         <Painting
@@ -497,7 +516,7 @@ function Doorway1() {
           frameColor="#2b2b2b"
         >
           <div className="canvas">
-            <img src="/vase.png" alt="Vase painting" />
+            <img src="vase.png" alt="Vase painting" />
           </div>
         </Painting>
       </WallArt>

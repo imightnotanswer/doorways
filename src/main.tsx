@@ -1,21 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import App from './App.tsx'
-import Doorway1 from './pages/doorway1.tsx'
-import Layout from './components/Layout.tsx'
 import './index.css'
+import { HashRouter } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import Doorway1 from './pages/doorway1'
+import Doorway1Part2 from './pages/doorway1_part2'
+import Doorway2 from './pages/doorway2'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/doorway1" element={<Doorway1 />} />
-          {/* Add more doorway routes as you create them */}
-        </Routes>
-      </Layout>
-    </Router>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/doorway1" element={<Doorway1 />} />
+        <Route path="/doorway1_part2" element={<Doorway1Part2 />} />
+        <Route path="/doorway2" element={<Doorway2 />} />
+      </Routes>
+    </HashRouter>
   </React.StrictMode>,
 )

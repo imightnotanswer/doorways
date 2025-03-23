@@ -1,0 +1,60 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overscroll-behavior: none;
+    background: #000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sword-section {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    transition: transform 0.3s ease-out;
+}
+
+.sword-section img {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+    transition: all 0.5s ease-out;
+}
+
+.sword-section img.visible {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Optimize performance */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+}
+
+/* Custom scrollbar for the sword effect */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}

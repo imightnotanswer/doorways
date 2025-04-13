@@ -269,9 +269,15 @@ const Arrow = styled.div<ArrowProps>`
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s;
+  outline: none;
   
   &:hover {
     background: #363636;
+  }
+
+  &:focus {
+    outline: none;
+    border: 2px solid #ff69b4;
   }
 
   &:before {
@@ -485,7 +491,12 @@ function Doorway1() {
 
   return (
     <DoorwayContainer>
-      <AnimatedTitle text="LIVING ROOM" />
+      <AnimatedTitle
+        text="LIVING ROOM"
+        font="'Archivo Black', 'Impact', sans-serif"
+        size="9vw"
+        color="#e8927c"
+      />
       <HypnoticReturn to="/" title="Return to landing page">
         <svg viewBox="0 0 100 100">
           <path d="
@@ -505,12 +516,26 @@ function Doorway1() {
           aria-label="Previous channel"
           direction="left"
           onClick={() => handleChannelChange('left')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleChannelChange('left');
+            }
+          }}
+          tabIndex={0}
         />
         <Arrow
           as="button"
           aria-label="Next channel"
           direction="right"
           onClick={() => handleChannelChange('right')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleChannelChange('right');
+            }
+          }}
+          tabIndex={0}
         />
       </NavigationArrows>
       <WallArt>

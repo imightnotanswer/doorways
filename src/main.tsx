@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 import Doorway1 from './pages/doorway1'
 import Doorway1Part2 from './pages/doorway1_part2'
 import Doorway2 from './pages/doorway2'
+import Doorway3 from './pages/doorway3'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/doorway1" element={<Doorway1 />} />
         <Route path="/doorway1_part2" element={<Doorway1Part2 />} />
         <Route path="/doorway2" element={<Doorway2 />} />
+        <Route path="/doorway3" element={<Doorway3 />} />
       </Routes>
     </HashRouter>
   </React.StrictMode>,

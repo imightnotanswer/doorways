@@ -1,68 +1,39 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const TitleContainer = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 100;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    pointer-events: none;
 `;
 
-const Title = styled(motion.h1) <{ color?: string }>`
-  color: ${props => props.color || '#ffdd00'};
-  text-transform: uppercase;
-  font-family: 'VT323', monospace;
-  font-size: 12vw;
-  text-align: center;
-  margin: 0;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-weight: bold;
+const Title = styled.h1`
+    font-family: 'TAYMilkbar', sans-serif;
+    font-size: 4rem;
+    color: #8ba6a9;
+    text-align: center;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `;
 
 interface AnimatedTitleProps {
-    text: string;
-    color?: string;
+    onAnimationComplete?: () => void;
 }
 
-const AnimatedTitle = ({ text, color }: AnimatedTitleProps) => {
-    const [isVisible, setIsVisible] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, []);
-
+const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ onAnimationComplete }) => {
     return (
-        <AnimatePresence>
-            {isVisible && (
-                <TitleContainer
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <Title
-                        color={color}
-                        initial={{ scale: 1.2, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {text}
-                    </Title>
-                </TitleContainer>
-            )}
-        </AnimatePresence>
+        <TitleContainer
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 2, delay: 1 }}
+            onAnimationComplete={onAnimationComplete}
+        >
+            <Title>ENDLESS COLLAGE</Title>
+        </TitleContainer>
     );
 };
 

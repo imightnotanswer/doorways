@@ -1,0 +1,64 @@
+/* Font imports */
+@font-face {
+    font-family: 'TAYMilkbar';
+    src: url('../assets/fonts/TAYMilkbar.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Doorway 3 Styles */
+
+/* Base styles */
+body.doorway3-page {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 200vh;
+}
+
+/* Image styles */
+.doorway3-image {
+    max-height: 330vh;
+    width: auto;
+    transform: scale(1.08);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .doorway3-image {
+        max-height: 300vh;
+    }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Container styles */
+.doorway3-container {
+    position: relative;
+    min-height: 200vh;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+/* Image container */
+.doorway3-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}

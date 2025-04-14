@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Preloader from '../components/Preloader';
 import { CollageOverlay } from '../components/CollageOverlay';
 import { motion } from 'framer-motion';
@@ -8,7 +8,8 @@ import '../styles/doorway3.css';
 
 const Container = styled.div`
     position: relative;
-    min-height: 200vh;
+    min-height: 100vh;
+    max-height: 100vh;
     background: #f5e6e0;
     overflow: hidden;
     
@@ -67,7 +68,7 @@ const StyledImage = styled.img`
 
 const TitleContainer = styled(motion.div)`
     position: fixed;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1001;
@@ -77,9 +78,9 @@ const TitleContainer = styled(motion.div)`
     pointer-events: none;
 `;
 
-const Doorway3Title = styled(motion.h1)`
+const Title = styled.h1`
     font-family: 'TAYMilkbar', sans-serif;
-    font-size: 10vw;
+    font-size: 8vw;
     color: white;
     margin: 0;
     line-height: 0.9;
@@ -88,24 +89,23 @@ const Doorway3Title = styled(motion.h1)`
     letter-spacing: 0.1em;
     mix-blend-mode: difference;
     font-weight: bold;
-    text-align: center;
     
     @media (max-width: 768px) {
-        font-size: 14vw;
+        font-size: 12vw;
         letter-spacing: 0.08em;
     }
 `;
 
 const HypnoticReturn = styled(Link)`
     position: fixed;
-    top: 2rem;
-    left: 2rem;
-    width: 70px;
-    height: 70px;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
     z-index: 1002;
     opacity: 1;
-    padding: 10px;
+    padding: 8px;
     transition: transform 0.3s ease;
 
     svg {
@@ -151,56 +151,10 @@ const HypnoticReturn = styled(Link)`
     }
 `;
 
-const TextContainer = styled.div`
-    position: relative;
-    z-index: 2;
-    mix-blend-mode: difference;
-    color: white;
-    font-weight: bold;
-    isolation: isolate;
-`;
-
 export const Doorway3: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showCollage, setShowCollage] = useState(false);
     const [showTitle, setShowTitle] = useState(true);
-    const location = useLocation();
-    const imageRef = useRef<HTMLImageElement>(null);
-    const maxAttempts = 3;
-    const attempts = useRef(0);
-    const isProcessing = useRef(false);
-    const fontStyleRef = useRef<HTMLStyleElement | null>(null);
-
-    // Load font only for this component
-    useEffect(() => {
-        // Create a unique class name for this instance
-        const uniqueClassName = `doorway3-font-${Math.random().toString(36).substr(2, 9)}`;
-
-        // Create and add the font style
-        const style = document.createElement('style');
-        style.textContent = `
-            @font-face {
-                font-family: '${uniqueClassName}';
-                src: url('/src/assets/fonts/TAYMilkbar.otf') format('opentype');
-                font-weight: normal;
-                font-style: normal;
-            }
-        `;
-        document.head.appendChild(style);
-        fontStyleRef.current = style;
-
-        // Update the Title component's font-family
-        const titleElements = document.querySelectorAll('.doorway3-title');
-        titleElements.forEach(el => {
-            (el as HTMLElement).style.fontFamily = uniqueClassName;
-        });
-
-        return () => {
-            if (fontStyleRef.current) {
-                document.head.removeChild(fontStyleRef.current);
-            }
-        };
-    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -210,36 +164,6 @@ export const Doorway3: React.FC = () => {
 
         return () => clearTimeout(timer);
     }, []);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!imageRef.current || attempts.current >= maxAttempts) return;
-
-            const imageHeight = imageRef.current.clientHeight;
-            const windowHeight = window.innerHeight;
-            const scrollPosition = window.scrollY;
-            const scrollProgress = (scrollPosition / (imageHeight - windowHeight)) * 100;
-
-            if (scrollProgress > 69 && !isProcessing.current) {
-                isProcessing.current = true;
-                attempts.current += 1;
-
-                const targetScroll = ((imageHeight - windowHeight) * 0.5);
-
-                window.scrollTo({
-                    top: targetScroll,
-                    behavior: 'smooth'
-                });
-
-                setTimeout(() => {
-                    isProcessing.current = false;
-                }, 500);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [maxAttempts]);
 
     if (isLoading) {
         return <Preloader isLoading={isLoading} />;
@@ -254,9 +178,9 @@ export const Doorway3: React.FC = () => {
                     transition={{ duration: 2, delay: 1 }}
                     onAnimationComplete={() => setShowTitle(false)}
                 >
-                    <Doorway3Title>
+                    <Title>
                         {'ENDLESS\nCOLLAGE'}
-                    </Doorway3Title>
+                    </Title>
                 </TitleContainer>
             )}
             <CollageOverlay isActive={showCollage} />
@@ -267,7 +191,6 @@ export const Doorway3: React.FC = () => {
             </HypnoticReturn>
             <ImageContainer>
                 <StyledImage
-                    ref={imageRef}
                     src="/images/doorway3.jpg"
                     alt="Doorway 3"
                     onError={(e) => {

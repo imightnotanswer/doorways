@@ -17,8 +17,8 @@ interface ImagePosition {
     index: number;
 }
 
-const MAX_ACTIVE_IMAGES = 20; // Reduced from 50 to 20
-const IMAGES_PER_CLEANUP = 5; // Number of old images to remove when hitting max
+const MAX_ACTIVE_IMAGES = 25; // Reduced to 25 images
+const IMAGES_PER_CLEANUP = 6; // Adjusted cleanup batch size
 
 const Overlay = styled(motion.div)`
     position: fixed;
@@ -34,7 +34,7 @@ const Overlay = styled(motion.div)`
 
 const Image = styled(motion.img) <{ $zIndex: number }>`
     position: absolute;
-    max-width: 400px;
+    max-width: min(400px, 40vw);
     height: auto;
     object-fit: cover;
     z-index: ${props => props.$zIndex};
@@ -42,12 +42,20 @@ const Image = styled(motion.img) <{ $zIndex: number }>`
     will-change: transform;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
+
+    @media (max-width: 768px) {
+        max-width: min(300px, 45vw);
+    }
+
+    @media (max-width: 480px) {
+        max-width: min(250px, 50vw);
+    }
 `;
 
 const getRandomPosition = (size: number) => {
-    const margin = -size * 0.3;
-    const maxX = window.innerWidth - size + margin;
-    const maxY = window.innerHeight - size + margin;
+    const margin = size * 0.2;
+    const maxX = window.innerWidth - size - margin;
+    const maxY = window.innerHeight - size - margin;
 
     return {
         x: margin + Math.random() * maxX,
@@ -60,7 +68,7 @@ export const CollageOverlay: React.FC<CollageOverlayProps> = ({ isActive }) => {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const imageCache = useRef<{ [key: string]: HTMLImageElement }>({});
-    const cleanupTimeout = useRef<NodeJS.Timeout>();
+    const cleanupTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
 
     // Load images from assets directory
     useEffect(() => {
@@ -94,15 +102,30 @@ export const CollageOverlay: React.FC<CollageOverlayProps> = ({ isActive }) => {
     }, []);
 
     const createImagePosition = useCallback((src: string, index: number): ImagePosition => {
-        const size = 300;
-        const position = getRandomPosition(size);
+        // Create three size tiers for more dramatic variety
+        const sizeTier = Math.random();
+        let scale;
+        if (sizeTier < 0.4) { // 40% chance of small
+            scale = 0.3 + Math.random() * 0.2; // 0.3 - 0.5
+        } else if (sizeTier < 0.85) { // 45% chance of medium
+            scale = 0.5 + Math.random() * 0.3; // 0.5 - 0.8
+        } else { // 15% chance of large
+            scale = 1.0 + Math.random() * 0.4; // 1.0 - 1.4
+        }
+
+        // Adjust base size based on screen width
+        const baseSize = window.innerWidth <= 768
+            ? (window.innerWidth <= 480 ? 200 : 250)
+            : 400;
+
+        const position = getRandomPosition(baseSize * scale);
 
         return {
             src,
             x: position.x,
             y: position.y,
-            rotation: (Math.random() - 0.5) * 45,
-            scale: 1,
+            rotation: (Math.random() - 0.5) * 30,
+            scale,
             zIndex: index % 10,
             key: `${src}-${index}`,
             index

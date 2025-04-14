@@ -4,6 +4,19 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import Preloader from '../components/Preloader';
 import AnimatedTitle from '../components/AnimatedTitle';
+import '../styles/doorway1_part2.css';
+
+// Load the TAYMakawao font
+const fontStyle = document.createElement('style');
+fontStyle.textContent = `
+    @font-face {
+        font-family: 'TAYMakawao';
+        src: url('/src/assets/fonts/TAYMakawao.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+`;
+document.head.appendChild(fontStyle);
 
 const fadeInOut = keyframes`
   0% {
@@ -250,9 +263,9 @@ function Doorway1Part2() {
       </HypnoticReturn>
       <AnimatedTitle
         text="YOU HAVE ARRIVED"
+        font="'TAYMakawao', sans-serif"
         color="#8ba6a9"
-        font="'Archivo Black', 'Impact', sans-serif"
-        size="8vw"
+        size="12vw"
       />
       <EyesContainer>
         <Eye className="eye">

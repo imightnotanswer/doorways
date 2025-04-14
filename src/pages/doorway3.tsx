@@ -6,75 +6,63 @@ import { CollageOverlay } from '../components/CollageOverlay';
 import { motion } from 'framer-motion';
 import '../styles/doorway3.css';
 
-// Load the font
-const fontStyle = document.createElement('style');
-fontStyle.textContent = `
-    @font-face {
-        font-family: 'TAYMilkbar';
-        src: url('/src/assets/fonts/TAYMilkbar.otf') format('opentype');
-        font-weight: normal;
-        font-style: normal;
-    }
-`;
-document.head.appendChild(fontStyle);
-
 const Container = styled.div`
-  position: relative;
-  min-height: 200vh;
-  background: #f5e6e0;
-  overflow: hidden;
-  
-  &::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(232, 146, 124, 0.03) 0%,
-      rgba(245, 230, 224, 0.1) 100%
-    );
-    pointer-events: none;
-    mix-blend-mode: overlay;
-  }
+    position: relative;
+    min-height: 200vh;
+    background: #f5e6e0;
+    overflow: hidden;
+    
+    &::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at center,
+            rgba(232, 146, 124, 0.03) 0%,
+            rgba(245, 230, 224, 0.1) 100%
+        );
+        pointer-events: none;
+        mix-blend-mode: overlay;
+    }
 `;
 
 const ImageContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: #f5e6e0;
-  
-  &::before {
-    content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      45deg,
-      rgba(123, 169, 164, 0.03) 0%,
-      rgba(232, 146, 124, 0.03) 100%
-    );
-    mix-blend-mode: soft-light;
-  }
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #f5e6e0;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            45deg,
+            rgba(123, 169, 164, 0.03) 0%,
+            rgba(232, 146, 124, 0.03) 100%
+        );
+        mix-blend-mode: soft-light;
+    }
 `;
 
 const StyledImage = styled.img`
-  max-height: 330vh;
-  transform: scale(1.08);
-  transition: transform 0.3s ease;
-  transform-origin: center center;
-  opacity: ${props => props.src ? 1 : 0};
+    max-height: 330vh;
+    transform: scale(1.08);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    opacity: ${props => props.src ? 1 : 0};
 `;
 
 const TitleContainer = styled(motion.div)`
@@ -89,22 +77,23 @@ const TitleContainer = styled(motion.div)`
     pointer-events: none;
 `;
 
-const Title = styled.h1`
-  font-family: 'TAYMilkbar', sans-serif;
-  font-size: 10vw;
-  color: white;
-  margin: 0;
-  line-height: 0.9;
-  text-transform: uppercase;
-  white-space: pre-line;
-  letter-spacing: 0.1em;
-  mix-blend-mode: difference;
-  font-weight: bold;
-  
-  @media (max-width: 768px) {
-    font-size: 14vw;
-    letter-spacing: 0.08em;
-  }
+const Doorway3Title = styled(motion.h1)`
+    font-family: 'TAYMilkbar', sans-serif;
+    font-size: 10vw;
+    color: white;
+    margin: 0;
+    line-height: 0.9;
+    text-transform: uppercase;
+    white-space: pre-line;
+    letter-spacing: 0.1em;
+    mix-blend-mode: difference;
+    font-weight: bold;
+    text-align: center;
+    
+    @media (max-width: 768px) {
+        font-size: 14vw;
+        letter-spacing: 0.08em;
+    }
 `;
 
 const HypnoticReturn = styled(Link)`
@@ -180,6 +169,38 @@ export const Doorway3: React.FC = () => {
     const maxAttempts = 3;
     const attempts = useRef(0);
     const isProcessing = useRef(false);
+    const fontStyleRef = useRef<HTMLStyleElement | null>(null);
+
+    // Load font only for this component
+    useEffect(() => {
+        // Create a unique class name for this instance
+        const uniqueClassName = `doorway3-font-${Math.random().toString(36).substr(2, 9)}`;
+
+        // Create and add the font style
+        const style = document.createElement('style');
+        style.textContent = `
+            @font-face {
+                font-family: '${uniqueClassName}';
+                src: url('/src/assets/fonts/TAYMilkbar.otf') format('opentype');
+                font-weight: normal;
+                font-style: normal;
+            }
+        `;
+        document.head.appendChild(style);
+        fontStyleRef.current = style;
+
+        // Update the Title component's font-family
+        const titleElements = document.querySelectorAll('.doorway3-title');
+        titleElements.forEach(el => {
+            (el as HTMLElement).style.fontFamily = uniqueClassName;
+        });
+
+        return () => {
+            if (fontStyleRef.current) {
+                document.head.removeChild(fontStyleRef.current);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -233,9 +254,9 @@ export const Doorway3: React.FC = () => {
                     transition={{ duration: 2, delay: 1 }}
                     onAnimationComplete={() => setShowTitle(false)}
                 >
-                    <Title>
+                    <Doorway3Title>
                         {'ENDLESS\nCOLLAGE'}
-                    </Title>
+                    </Doorway3Title>
                 </TitleContainer>
             )}
             <CollageOverlay isActive={showCollage} />
